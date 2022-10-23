@@ -6,25 +6,25 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware(['isAdmin'])->prefix('/admin')->group(function () {
+Route::get('/login', function () {
+    return view('login');
+});
+
+Route::post('/login', [\App\Http\Controllers\web\UserController::class, 'authenticate'])->name('login');
+
+Route::middleware(['role:admin'])->prefix('/admin')->group(function () {
     // List of available commands
     Route::get('/', function () {
-        // todo
+        return view('admin.index');
     });
     // Edit resource page
     Route::get('/edit', function () {
         // todo
     });
     // List of books page
-    Route::get('/books', function () {
-        // todo
-    });
+    Route::get('/books', [\App\Http\Controllers\BookController::class, 'index']);
+    // List of authors page
+    Route::get('/authors', [\App\Http\Controllers\AuthorController::class, 'index']);
     // List of genres page
-    Route::get('/genre', function () {
-        // todo
-    });
-    // List of users page
-    Route::get('/users', function () {
-        // todo
-    });
+    Route::get('/genres', [\App\Http\Controllers\GenreController::class, 'index']);
 });

@@ -2,26 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Book;
 use App\Http\Requests\StoreBookRequest;
 use App\Http\Requests\UpdateBookRequest;
+use App\Http\Resources\BookResource;
+use App\Models\Book;
+use Illuminate\Http\Response;
 
 class BookController extends Controller
 {
     /**
      * Get resource list.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|Response
      */
     public function index()
     {
-        //
+        return view('admin.list')->with('data', BookResource::collection(Book::with('author', 'genres')->get()->all())->toArray(request()));
     }
 
     /**
      * Get resource making page
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -32,7 +34,7 @@ class BookController extends Controller
      * Put resource in database.
      *
      * @param  \App\Http\Requests\StoreBookRequest  $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function store(StoreBookRequest $request)
     {
@@ -43,8 +45,8 @@ class BookController extends Controller
     /**
      * Get resource editing page.
      *
-     * @param  \App\Models\Book  $book
-     * @return \Illuminate\Http\Response
+     * @param Book $book
+     * @return Response
      */
     public function edit(Book $book)
     {
@@ -54,9 +56,9 @@ class BookController extends Controller
     /**
      * Update resource and put in the storage.
      *
-     * @param  \App\Http\Requests\UpdateBookRequest  $request
-     * @param  \App\Models\Book  $book
-     * @return \Illuminate\Http\Response
+     * @param UpdateBookRequest $request
+     * @param Book $book
+     * @return Response
      */
     public function update(UpdateBookRequest $request, Book $book)
     {
@@ -66,8 +68,8 @@ class BookController extends Controller
     /**
      * Delete resource.
      *
-     * @param  \App\Models\Book  $book
-     * @return \Illuminate\Http\Response
+     * @param Book $book
+     * @return Response
      */
     public function destroy(Book $book)
     {
