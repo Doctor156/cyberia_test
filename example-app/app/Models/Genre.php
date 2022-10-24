@@ -11,6 +11,11 @@ class Genre extends Pivot
     use HasFactory, SoftDeletes;
 
     protected $table = "genres";
+    public $incrementing = true;
+
+    protected $fillable = [
+        'name',
+    ];
 
     public function books() {
         return $this->belongsToMany(Book::class,'genre_book', 'genre_id', 'book_id');

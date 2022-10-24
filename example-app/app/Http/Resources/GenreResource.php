@@ -19,6 +19,7 @@ class GenreResource extends JsonResource
         return [
             'id' => $this->resource->id,
             'name' => $this->resource->name,
+            'delete route' => route('destroy.genre', $this->resource->id),
         ];
     }
 }
