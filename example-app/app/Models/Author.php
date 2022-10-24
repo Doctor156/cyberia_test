@@ -11,6 +11,7 @@ class Author extends Pivot
     use HasFactory, SoftDeletes;
 
     protected $table = "authors";
+    public $incrementing = true;
 
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

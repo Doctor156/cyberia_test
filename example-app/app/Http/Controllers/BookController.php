@@ -20,9 +20,7 @@ class BookController extends Controller
     public function index()
     {
         return view('admin.list', [
-            'data' => BookResource::collection(Book::with('author', 'genres')->get()->all())->toArray(request()),
-            'deleteRouteName' => 'destroy.book',
-            ]);
+            'data' => BookResource::collection(Book::with('author', 'genres')->get()->all())->toArray(request())]);
     }
 
     /**
@@ -91,12 +89,12 @@ class BookController extends Controller
      */
     public function update(BookRequest $request, Book $book)
     {
-        $book->name = $request->input('name') ?? $book->name;
-        if (!empty($genres = $request->input('genres'))) {
-            $book->genres()->sync(array_values($genres));
+        $book->name = $request->getName();
+        if (!empty($genres = $request->getGenres())) {
+            $book->genres()->sync($genres);
         }
 
-        if (!empty($author = $request->input('author'))) {
+        if (!empty($author = $request->getAuthorId())) {
             $book->author_id = $author;
         }
 

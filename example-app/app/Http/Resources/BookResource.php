@@ -21,6 +21,7 @@ class BookResource extends JsonResource
             'name' => $this->resource->name,
             'genres' => implode(', ', $this->resource->genres->pluck('name')->toArray()),
             'author' => $this->resource->author->name,
+            'delete route' => route('destroy.book', $this->resource->id),
         ];
     }
 }

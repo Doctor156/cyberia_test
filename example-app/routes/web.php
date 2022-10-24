@@ -19,17 +19,25 @@ Route::middleware(['role:admin'])->prefix('/admin')->group(function () {
     });
 
     Route::prefix('/edit')->group(function () {
-      Route::get('/book/{book}', [\App\Http\Controllers\BookController::class, 'edit'])->name('edit.book');
-      Route::post('/book/{book}', [\App\Http\Controllers\BookController::class, 'update'])->name('update.book');
+        Route::get('/book/{book}', [\App\Http\Controllers\BookController::class, 'edit'])->name('edit.book');
+        Route::post('/book/{book}', [\App\Http\Controllers\BookController::class, 'update'])->name('update.book');
+
+        Route::get('/author/{author}', [\App\Http\Controllers\AuthorController::class, 'edit'])->name('edit.author');
+        Route::post('/author/{author}', [\App\Http\Controllers\AuthorController::class, 'update'])->name('update.author');
     });
 
     Route::prefix('/create')->group(function () {
         Route::get('/book/', [\App\Http\Controllers\BookController::class, 'create']);
         Route::post('/book/', [\App\Http\Controllers\BookController::class, 'store'])->name('store.book');
+
+        Route::get('/author/', [\App\Http\Controllers\AuthorController::class, 'create']);
+        Route::post('/author/', [\App\Http\Controllers\AuthorController::class, 'store'])->name('store.author');
     });
 
     Route::prefix('/delete')->group(function () {
         Route::post('/book/{book}', [\App\Http\Controllers\BookController::class, 'destroy'])->name('destroy.book');
+
+        Route::post('/author/{author}', [\App\Http\Controllers\AuthorController::class, 'destroy'])->name('destroy.author');
     });
 
     // List of books page

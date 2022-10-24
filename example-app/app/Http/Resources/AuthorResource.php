@@ -20,6 +20,7 @@ class AuthorResource extends JsonResource
             'id' => $this->resource->id,
             'name' => $this->resource->name,
             'books count' => $this->resource->books && $this->resource->books->count() > 0 ? $this->resource->books->count() : 0,
+            'delete route' => route('destroy.author', $this->resource->id),
         ];
     }
 }

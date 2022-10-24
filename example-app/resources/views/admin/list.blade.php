@@ -10,15 +10,18 @@
         </thead>
    @foreach($data as $resource)
         <tr>
-            @foreach($resource as $element)
+            @foreach($resource as $key => $element)
+                @if($key === 'delete route')
+                    <td>
+                        <form method="post" action="{{ $element }}">
+                            @csrf
+                            <input type="submit" name="submit" value="delete">
+                        </form>
+                    </td>
+                @else
                 <td>{{$element}}</td>
+                @endif
             @endforeach
-                <td>
-                    <form method="post" action="{{ route($deleteRouteName, $resource['id']) }}">
-                        @csrf
-                        <input type="submit" name="submit" value="delete">
-                    </form>
-                </td>
         </tr>
    @endforeach
     </table>
