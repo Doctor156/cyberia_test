@@ -13,6 +13,12 @@
             @foreach($resource as $element)
                 <td>{{$element}}</td>
             @endforeach
+                <td>
+                    <form method="post" action="{{ route($deleteRouteName, $resource['id']) }}">
+                        @csrf
+                        <input type="submit" name="submit" value="delete">
+                    </form>
+                </td>
         </tr>
    @endforeach
     </table>

@@ -1,11 +1,10 @@
 @extends('template')
 @section('content')
-@auth()
     <form class="container" enctype="multipart/form-data" action="{{ route('login') }}" method="POST">
         @csrf
         <label>
             Почта
-            <input id="email" name="email" type="text"  class="email">
+            <input id="email" name="email" type="text" class="email">
         </label>
         <label>
             Пароль
@@ -13,5 +12,4 @@
         </label>
         <button type="submit">Отправить</button>
     </form>
-@endauth
 @endsection

@@ -17,10 +17,21 @@ Route::middleware(['role:admin'])->prefix('/admin')->group(function () {
     Route::get('/', function () {
         return view('admin.index');
     });
-    // Edit resource page
-    Route::get('/edit', function () {
-        // todo
+
+    Route::prefix('/edit')->group(function () {
+      Route::get('/book/{book}', [\App\Http\Controllers\BookController::class, 'edit'])->name('edit.book');
+      Route::post('/book/{book}', [\App\Http\Controllers\BookController::class, 'update'])->name('update.book');
     });
+
+    Route::prefix('/create')->group(function () {
+        Route::get('/book/', [\App\Http\Controllers\BookController::class, 'create']);
+        Route::post('/book/', [\App\Http\Controllers\BookController::class, 'store'])->name('store.book');
+    });
+
+    Route::prefix('/delete')->group(function () {
+        Route::post('/book/{book}', [\App\Http\Controllers\BookController::class, 'destroy'])->name('destroy.book');
+    });
+
     // List of books page
     Route::get('/books', [\App\Http\Controllers\BookController::class, 'index']);
     // List of authors page

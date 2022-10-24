@@ -4,13 +4,25 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Book extends Resource
+/** @property int $id */
+class Book extends Pivot
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $table = "books";
+    // this is a monster
+    public $incrementing = true;
 
+    protected $guarded = [
+        'id'
+    ];
+
+    protected $fillable = [
+        'name',
+        'author_id',
+    ];
 
     public function author() {
         return $this->belongsTo(Author::class);
