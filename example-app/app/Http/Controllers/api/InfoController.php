@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AuthorRequest;
 use App\Http\Requests\BookRequest;
 use App\Http\Resources\AuthorWithBooksResource;
+use App\Http\Response\ApiResponse;
 use App\Models\Author;
 use App\Models\Book;
 use Illuminate\Http\JsonResponse;
@@ -15,26 +16,15 @@ class InfoController extends Controller
     {
         $books = Author::where('name', $name)->with('books')->first()?->books;
         if (empty($books) || $books->isEmpty()) {
-            return response()->json([
-                'success' => false,
-                'error' => 'no such author|no books on this author'
-            ]);
+            return response()->json( new ApiResponse(false, ['error' => 'no such author|no books on this author']));
         }
 
-        return response()->json([
-            'success' => true,
-            // there can be a resource if some data is confidential
-            'result' => $books,
-        ]);
+        return response()->json( new ApiResponse(true, $books->toArray()));
     }
 
     public function getBookById(Book $book): \Illuminate\Http\JsonResponse
     {
-        return response()->json([
-            'success' => true,
-            // there can be a resource if some data is confidential
-            'result' => $book,
-        ]);
+        return response()->json(new ApiResponse(true, $book->toArray()));
     }
 
     public function updateBookById(Book $book, BookRequest $request): \Illuminate\Http\JsonResponse
@@ -46,20 +36,14 @@ class InfoController extends Controller
         }
         $book->save();
 
-        return response()->json([
-            'success' => true,
-            // there can be a resource if some data is confidential
-            'result' => $book,
-        ]);
+        return response()->json(new ApiResponse(true, $book->toArray()));
     }
 
     public function deleteBookById(Book $book): \Illuminate\Http\JsonResponse
     {
         $book->delete();
 
-        return response()->json([
-            'success' => true,
-        ]);
+        return response()->json(new ApiResponse(true));
     }
 
     /**
@@ -69,18 +53,14 @@ class InfoController extends Controller
      */
     public function getAuthorBooksCount(): \Illuminate\Http\JsonResponse
     {
-        return response()->json([
-            'success' => true,
-            'result' => AuthorWithBooksResource::collection(Author::with('books')->get()->all())->toArray(\request())
-        ]);
+        return response()->json(
+            new ApiResponse(true,
+            AuthorWithBooksResource::collection(Author::with('books')->get()->all())->toArray(\request())));
     }
 
     public function getAuthorById(Author $author): \Illuminate\Http\JsonResponse
     {
-        return response()->json([
-            'success' => true,
-            'result' => (new AuthorWithBooksResource($author))->toArray(\request()),
-        ]);
+        return response()->json(new ApiResponse(true, (new AuthorWithBooksResource($author))->toArray(\request())));
     }
 
     public function updateAuthor(AuthorRequest $request): \Illuminate\Http\JsonResponse
@@ -104,10 +84,6 @@ class InfoController extends Controller
 
         $author->save();
 
-        return response()->json([
-            'success' => true,
-            // there can be a resource if some data is confidential
-            'result' => $author,
-        ]);
+        return response()->json(new ApiResponse(true, $author->toArray()));
     }
 }
