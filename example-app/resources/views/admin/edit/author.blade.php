@@ -12,7 +12,7 @@
                 <option value="">Не выбран</option>
                 @if(isset($author) && isset($author->user))<option selected value="{{$author->user->id}}">{{$author->user->name}}</option> @endif
                 @foreach($users as $user)
-                    <option @if(isset($author) && isset($author->user) && $author?->user->id === $user->id) selected @endif value="{{$user->id}}">{{$user->name}}</option>
+                    <option @if(isset($author, $author->user)  && $author?->user->id === $user->id) selected @endif value="{{$user->id}}">{{$user->name}}</option>
                 @endforeach
             </select>
         </label>
@@ -20,7 +20,7 @@
             Книги
             @foreach($books as $book)
                 <span class="book-name">{{$book->name}}</span>
-                <input @if(isset($author) && isset($book->author) && $book->author->id === $author->id) checked @endif value="{{$book->id}}" name="books[]"
+                <input @if(isset($author, $book->author) && $book->author->id === $author->id) checked @endif value="{{$book->id}}" name="books[]"
                        type="checkbox" class="book">
             @endforeach
         </label>

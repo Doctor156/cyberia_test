@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreGenreRequest;
 use App\Http\Resources\GenreResource;
 use App\Models\Genre;
-use App\Http\Requests\GenreRequest;
 use App\Http\Requests\UpdateGenreRequest;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
 
 class GenreController extends Controller
 {
@@ -35,10 +36,10 @@ class GenreController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\GenreRequest  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @param StoreGenreRequest $request
+     * @return RedirectResponse
      */
-    public function store(GenreRequest $request)
+    public function store(StoreGenreRequest $request)
     {
         $genre = new Genre();
         $genre->name = $request->getName();

@@ -16,7 +16,8 @@ class hasntAuthor implements Rule
      */
     public function passes($attribute, $value)
     {
-        return empty(User::find($value)->author);
+        $user = User::find($value);
+        return empty($user->author) || $user->author->user_id == $value;
     }
 
     /**

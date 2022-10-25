@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreBookRequest;
-use App\Http\Requests\BookRequest;
+use App\Http\Requests\UpdateBookRequest;
 use App\Http\Resources\BookResource;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\Genre;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 
 class BookController extends Controller
@@ -83,11 +84,11 @@ class BookController extends Controller
     /**
      * Update resource and put in the storage.
      *
-     * @param BookRequest $request
+     * @param UpdateBookRequest $request
      * @param Book $book
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
-    public function update(BookRequest $request, Book $book)
+    public function update(UpdateBookRequest $request, Book $book)
     {
         $book->name = $request->getName();
         if (!empty($genres = $request->getGenres())) {

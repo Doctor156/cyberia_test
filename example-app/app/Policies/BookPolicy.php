@@ -33,6 +33,10 @@ class BookPolicy
      */
     public function update(User $user, Book $book): Response
     {
+        if (empty($user->author)) {
+            return Response::deny('That\'s not ur book :)');
+        }
+
         return $user?->author->id === $book->author_id
             ? Response::allow()
             : Response::deny('That\'s not ur book :)');

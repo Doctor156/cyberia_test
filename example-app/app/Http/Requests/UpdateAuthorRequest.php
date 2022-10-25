@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-class UpdateAuthorRequest extends AuthRequest
+class UpdateAuthorRequest extends AuthorRequest
 {
 
 }

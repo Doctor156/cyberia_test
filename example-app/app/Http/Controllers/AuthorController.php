@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AuthorRequest;
-use App\Http\Resources\AuthorWithBooksResource;
+use App\Http\Requests\StoreAuthorRequest;
+use App\Http\Requests\UpdateAuthorRequest;
+use App\Http\Resources\AuthorResource;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\User;
@@ -20,7 +21,7 @@ class AuthorController extends Controller
      */
     public function index()
     {
-        return view('admin.list', ['data' => AuthorWithBooksResource::collection(Author::with('books')->get()->all())->toArray(request())]);
+        return view('admin.list', ['data' => AuthorResource::collection(Author::with('books')->get()->all())->toArray(request())]);
     }
 
     /**
@@ -44,10 +45,10 @@ class AuthorController extends Controller
     /**
      * Put resource in database.
      *
-     * @param AuthorRequest $request
+     * @param StoreAuthorRequest $request
      * @return RedirectResponse
      */
-    public function store(AuthorRequest $request)
+    public function store(StoreAuthorRequest $request)
     {
         $author = new Author();
         $author->name = $request->getName();
@@ -55,7 +56,9 @@ class AuthorController extends Controller
         $author->save();
 
         if ($books = $request->getBooks()) {
-            $author->books()->saveMany($books);
+            // unbind old books
+            $author->books()->update(['author_id' => null]);
+            Book::whereIn('id', $books)->update(['author_id' => $author->id]);
         }
 
         return redirect()->route('edit.author', $author->id);
@@ -82,11 +85,11 @@ class AuthorController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param AuthorRequest $request
+     * @param UpdateAuthorRequest $request
      * @param Author $author
      * @return RedirectResponse
      */
-    public function update(AuthorRequest $request, Author $author)
+    public function update(UpdateAuthorRequest $request, Author $author)
     {
         $author->name = $request->getName();
         $author->user_id = $request->getUserId();

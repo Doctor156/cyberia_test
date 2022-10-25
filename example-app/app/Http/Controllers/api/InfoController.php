@@ -102,6 +102,8 @@ class InfoController extends Controller
             Book::whereIn('id', $books)->update(['author_id' => $author->id]);
         }
 
+        $author->save();
+
         return response()->json([
             'success' => true,
             // there can be a resource if some data is confidential
