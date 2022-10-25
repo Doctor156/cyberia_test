@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -13,7 +14,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-         'App\Models\Model' => 'App\Policies\ModelPolicy',
+         //'App\Models\Model' => 'App\Policies\ModelPolicy',
     ];
 
     /**
@@ -25,6 +26,9 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        // lelya-kebab-case because https://laravel.com/docs/master/authorization#authorizing-actions-via-gates
+        Gate::define('update-author', function (User $user) {
+           return $user?->author->id ? \Illuminate\Auth\Access\Response::allow() : \Illuminate\Auth\Access\Response::deny();
+        });
     }
 }

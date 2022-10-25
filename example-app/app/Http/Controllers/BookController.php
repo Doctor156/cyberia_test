@@ -50,7 +50,7 @@ class BookController extends Controller
     {
         $book = new Book();
         $book->name = $request->getName();
-        $book->author_id = $request->getAuthorId();
+        $book->author_id = $request->getAuthorId() ?? $book?->author->id;
         $book->save();
 
         if ($genres = $request->getGenres()) {

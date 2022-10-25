@@ -20,7 +20,7 @@ class BookResource extends JsonResource
             'id' => $this->resource->id,
             'name' => $this->resource->name,
             'genres' => implode(', ', $this->resource->genres->pluck('name')->toArray()),
-            'author' => $this->resource->author->name,
+            'author' => $this->resource?->author->name ?? 'John Doe',
             'delete route' => route('destroy.book', $this->resource->id),
         ];
     }

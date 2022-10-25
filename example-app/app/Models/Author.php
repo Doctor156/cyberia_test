@@ -49,4 +49,9 @@ class Author extends Pivot
     {
         return $this->hasMany(Book::class, 'author_id');
     }
+
+    public function getBooksCount(): int
+    {
+        return count($this->books);
+    }
 }

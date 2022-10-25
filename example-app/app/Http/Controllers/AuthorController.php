@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AuthorRequest;
-use App\Http\Resources\AuthorResource;
+use App\Http\Resources\AuthorWithBooksResource;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\User;
@@ -20,7 +20,7 @@ class AuthorController extends Controller
      */
     public function index()
     {
-        return view('admin.list', ['data' => AuthorResource::collection(Author::with('books')->get()->all())->toArray(request())]);
+        return view('admin.list', ['data' => AuthorWithBooksResource::collection(Author::with('books')->get()->all())->toArray(request())]);
     }
 
     /**

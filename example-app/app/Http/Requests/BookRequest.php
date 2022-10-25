@@ -10,7 +10,7 @@ class BookRequest extends FormRequest
     {
         return [
             'name' => 'string|required',
-            'author' => 'numeric|required|exists:authors,id',
+            'author' => 'numeric|exists:authors,id',
             'genres' => 'required|array',
             'genres.*' => 'required|integer|exists:genres,id',
         ];

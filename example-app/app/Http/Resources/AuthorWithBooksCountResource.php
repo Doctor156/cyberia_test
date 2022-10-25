@@ -6,7 +6,7 @@ use App\Models\Author;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /** @property-read Author $resource */
-class AuthorResource extends JsonResource
+class AuthorWithBooksCountResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -20,7 +20,6 @@ class AuthorResource extends JsonResource
             'id' => $this->resource->id,
             'name' => $this->resource->name,
             'books count' => $this->resource->getBooksCount(),
-            'delete route' => route('destroy.author', $this->resource->id),
         ];
     }
 }
